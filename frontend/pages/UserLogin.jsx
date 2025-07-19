@@ -2,6 +2,7 @@ import React from 'react';
 
 const UserLogin = () => {
   return (
+<<<<<<< HEAD:frontend/components/UserLogin.jsx
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login to Your Account</h2>
@@ -16,6 +17,13 @@ const UserLogin = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
+=======
+    <div>
+      User
+    </div>
+  )
+}
+>>>>>>> 821ff5ec2a882a092cbb9ae2b0cab1a37473eec1:frontend/pages/UserLogin.jsx
 
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="password">Password</label>
