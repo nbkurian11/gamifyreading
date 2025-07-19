@@ -7,30 +7,35 @@ const initialBooks = [
     totalPages: 200,
     pagesRead: 75,
     cover: 'https://covers.openlibrary.org/b/id/8167896-L.jpg',
+    description: 'A journey of self-discovery and spiritual growth.',
   },
   {
     title: 'Atomic Habits',
     totalPages: 300,
     pagesRead: 120,
     cover: 'https://covers.openlibrary.org/b/id/10594708-L.jpg',
+    description: 'Small habits, big results—master your behavior.',
   },
   {
     title: 'Deep Work',
     totalPages: 250,
     pagesRead: 90,
     cover: 'https://covers.openlibrary.org/b/id/9254161-L.jpg',
+    description: 'Focused success in a distracted world.',
   },
   {
-    title: 'Book 4',
-    totalPages: 150,
-    pagesRead: 10,
-    cover: 'https://via.placeholder.com/150x240?text=Book+4',
-  },
-  {
-    title: 'Book 5',
+    title: 'Digital Minimalism',
     totalPages: 180,
-    pagesRead: 90,
-    cover: 'https://via.placeholder.com/150x240?text=Book+5',
+    pagesRead: 45,
+    cover: 'https://covers.openlibrary.org/b/id/9254515-L.jpg',
+    description: 'Living better with less technology.',
+  },
+  {
+    title: 'Can’t Hurt Me',
+    totalPages: 250,
+    pagesRead: 160,
+    cover: 'https://covers.openlibrary.org/b/id/10045244-L.jpg',
+    description: 'Master your mind and defy the odds with David Goggins.',
   },
 ];
 
@@ -52,7 +57,7 @@ const CurrentRead = () => {
         </h2>
       </div>
 
-      <div className="relative flex justify-center items-center h-[420px]">
+      <div className="relative flex justify-center items-center h-[460px]">
         <button
           onClick={prevBook}
           className="absolute left-0 p-3 bg-gray-800 hover:bg-blue-600 transition rounded-full z-10 shadow-md shadow-blue-400"
@@ -94,8 +99,11 @@ const CurrentRead = () => {
                     draggable={false}
                     className="rounded-lg shadow-lg w-40 h-64 object-cover border-2 border-gray-600"
                   />
-                  <p className="text-sm font-bold mt-2 text-center text-white">
+                  <p className="text-base font-bold mt-2 text-center text-white">
                     {book.title}
+                  </p>
+                  <p className="text-xs text-center text-gray-300 px-1 mt-1">
+                    {book.description}
                   </p>
                   <div className="w-full h-3 bg-gray-700 rounded-full mt-2 overflow-hidden">
                     <div
