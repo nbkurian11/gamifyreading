@@ -18,15 +18,14 @@ const Homepage = () => {
 
   return (
     <div className="relative min-h-screen">
-      {/* Taskbar Overlay */}
       <Taskbar 
         userXP={userXP} 
         onNavigate={handleNavigation} 
       />
 
-      {/* Main Homepage Content */}
       <div className="grid grid-cols-6 grid-rows-5 gap-4 min-h-screen p-4">
-        <div className="col-span-2 row-span-5 bg-red-600">
+        <div className="col-span-2 row-span-5 bg-gradient-to-br from-[#0c0f1a] to-[#111827] rounded-2xl shadow-xl p-4">
+
           <CurrentRead />  
         </div>
         

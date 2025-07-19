@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios'; 
 const Challenges = () => {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -8,6 +8,7 @@ const Challenges = () => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState({ message: '', type: '' }); // For custom notifications
 
+  
   // Sample difficulty levels and their XP rewards
   const difficultyLevels = {
     'Beginner': { xp: 50, color: 'bg-emerald-500' },
@@ -199,24 +200,88 @@ const Challenges = () => {
   ];
 
   // Complete a challenge and award XP
-  const completeChallenge = (challenge, index) => {
-    const xpAwarded = difficultyLevels[challenge.difficulty]?.xp || 0; // Default to 0 if difficulty not found
-    const newXP = userXP + xpAwarded;
-    const newCompleted = [...completedChallenges, { ...challenge, completedDate: new Date().toISOString() }];
+  const [userId] = useState(() => {
+    // Generate or retrieve user ID
+    const id = localStorage.getItem('userId') || crypto.randomUUID();
+    localStorage.setItem('userId', id);
+    return id;
+  });
+
+  // Load completed challenges from DB
+  useEffect(() => {
+    const fetchCompletedChallenges = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:5000/api/completed-challenges/${userId}`);
+        setCompletedChallenges(data);
+        
+        // Calculate XP from completed challenges
+        const totalXP = data.reduce((sum, challenge) => sum + challenge.xp, 0);
+        setUserXP(totalXP);
+        
+        // Save to localStorage for offline use
+        localStorage.setItem('userXP', JSON.stringify(totalXP));
+        localStorage.setItem('completedChallenges', JSON.stringify(data));
+      } catch (error) {
+        console.error('Failed to load completed challenges:', error);
+        // Fallback to localStorage if API fails
+        const savedXP = JSON.parse(localStorage.getItem('userXP') || '0');
+        const savedCompleted = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+        setUserXP(savedXP);
+        setCompletedChallenges(savedCompleted);
+      }
+    };
     
-    setUserXP(newXP);
-    setCompletedChallenges(newCompleted);
+    fetchCompletedChallenges();
+  }, [userId]);
+
+  // Complete a challenge and save to DB
+  const completeChallenge = async (challenge, index) => {
+    const xpAwarded = difficultyLevels[challenge.difficulty]?.xp || 0;
     
-    // Save to localStorage
-    localStorage.setItem('userXP', JSON.stringify(newXP));
-    localStorage.setItem('completedChallenges', JSON.stringify(newCompleted));
-    
-    // Remove completed challenge from active challenges
-    const updatedChallenges = challenges.filter((_, i) => i !== index);
-    setChallenges(updatedChallenges);
-    
-    // Show success message using custom notification
-    showNotification(`Challenge completed! +${xpAwarded} XP earned. Total XP: ${newXP}`, 'success');
+    try {
+      await axios.post('http://localhost:5000/api/completed-challenges', {
+        userId,
+        ...challenge,
+        xp: xpAwarded,
+        completedDate: new Date()
+      });
+
+      const newCompleted = [...completedChallenges, {
+        ...challenge,
+        xp: xpAwarded,
+        completedDate: new Date().toISOString()
+      }];
+      
+      setCompletedChallenges(newCompleted);
+      setUserXP(userXP + xpAwarded);
+
+      const updatedChallenges = challenges.filter((_, i) => i !== index);
+      setChallenges(updatedChallenges);
+
+      localStorage.setItem('userXP', JSON.stringify(userXP + xpAwarded));
+      localStorage.setItem('completedChallenges', JSON.stringify(newCompleted));
+      
+      showNotification(`Challenge completed! +${xpAwarded} XP earned. Total XP: ${userXP + xpAwarded}`, 'success');
+    } catch (error) {
+      console.error('Failed to save challenge:', error);
+      showNotification('Failed to save challenge. Using local storage instead', 'error');
+
+      const newXP = userXP + xpAwarded;
+      const newCompleted = [...completedChallenges, { 
+        ...challenge, 
+        completedDate: new Date().toISOString(),
+        xp: xpAwarded
+      }];
+      
+      setUserXP(newXP);
+      setCompletedChallenges(newCompleted);
+      
+      localStorage.setItem('userXP', JSON.stringify(newXP));
+      localStorage.setItem('completedChallenges', JSON.stringify(newCompleted));
+      
+      const updatedChallenges = challenges.filter((_, i) => i !== index);
+      setChallenges(updatedChallenges);
+    }
   };
 
   return (
