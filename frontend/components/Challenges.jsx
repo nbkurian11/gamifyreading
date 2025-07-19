@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
-const Challenges = () => {
+import axios from 'axios';
+
+// The Challenges component now accepts an 'onXPUpdate' prop from its parent (Dashboard)
+const Challenges = ({ onXPUpdate }) => {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userXP, setUserXP] = useState(0);
   const [completedChallenges, setCompletedChallenges] = useState([]);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState({ message: '', type: '' }); // For custom notifications
-  
+
   // This is the new state to track the total XP for all users combined (or a global tally)
   const [totalXP, setTotalXP] = useState(0);
 
@@ -26,20 +28,26 @@ const Challenges = () => {
     'Expert': { xp: 350, color: 'bg-red-500' },
     'Master': { xp: 500, color: 'bg-purple-500' }
   };
-  
-  // This new useEffect fetches the global total XP when the component loads
+
+  // This useEffect fetches the global total XP when the component loads
+  // It also calls onXPUpdate to inform the parent (Dashboard) about the initial global XP
   useEffect(() => {
     const fetchTotalXP = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/total-xp');
-        setTotalXP(response.data.totalXP);
+        const fetchedTotalXP = response.data.totalXP || 0;
+        setTotalXP(fetchedTotalXP);
+        // Inform the parent (Dashboard) about the total XP
+        if (onXPUpdate) {
+          onXPUpdate(fetchedTotalXP);
+        }
       } catch (error) {
         console.error('Failed to fetch total XP:', error);
       }
     };
-    
+
     fetchTotalXP();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [onXPUpdate]); // Added onXPUpdate to dependency array to ensure it's up-to-date
 
   // Load user-specific completed challenges and XP from DB on component mount
   useEffect(() => {
@@ -47,11 +55,11 @@ const Challenges = () => {
       try {
         const { data } = await axios.get(`http://localhost:5000/api/completed-challenges/${userId}`);
         setCompletedChallenges(data);
-        
+
         // Calculate XP from completed challenges
         const totalUserXP = data.reduce((sum, challenge) => sum + challenge.xp, 0);
         setUserXP(totalUserXP);
-        
+
         // Save to localStorage for offline use
         localStorage.setItem('userXP', JSON.stringify(totalUserXP));
         localStorage.setItem('completedChallenges', JSON.stringify(data));
@@ -64,7 +72,7 @@ const Challenges = () => {
         setCompletedChallenges(savedCompleted);
       }
     };
-    
+
     fetchCompletedChallenges();
   }, [userId]);
 
@@ -99,9 +107,9 @@ const Challenges = () => {
   const generateChallenges = async () => {
     setLoading(true);
     setError('');
-    
+
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY; 
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;  
       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
       const payload = {
@@ -112,10 +120,10 @@ const Challenges = () => {
             2. A difficulty level (Beginner, Intermediate, Advanced, Expert, Master)
             3. A brief description of why it's challenging
             4. A time frame for completion
-            
+
             Format as JSON array with objects containing: title, difficulty, description, timeFrame, bookTopic
-            
-            Example: 
+
+            Example:
             {
               "title": "Philosophy Deep Dive",
               "difficulty": "Expert",
@@ -129,8 +137,8 @@ const Challenges = () => {
           temperature: 0.7,
           topK: 40,
           topP: 0.95,
-          responseMimeType: "application/json", 
-          responseSchema: { 
+          responseMimeType: "application/json",
+          responseSchema: {
             type: "ARRAY",
             items: {
               type: "OBJECT",
@@ -160,7 +168,7 @@ const Challenges = () => {
       }
 
       const result = await response.json();
-      
+
       let parsedChallenges = [];
       if (result.candidates && result.candidates.length > 0 &&
           result.candidates[0].content && result.candidates[0].content.parts &&
@@ -208,42 +216,42 @@ const Challenges = () => {
       difficulty: "Advanced",
       description: "Tackle a renowned classic that's known for its complexity",
       timeFrame: "45 days",
-      bookTopic: "classic literature" // Changed to topic
+      bookTopic: "classic literature"
     },
     {
       title: "Science Deep Dive",
       difficulty: "Expert",
       description: "Read a challenging scientific text to expand your knowledge",
       timeFrame: "30 days",
-      bookTopic: "quantum physics" // Changed to topic
+      bookTopic: "quantum physics"
     },
     {
       title: "Poetry Challenge",
       difficulty: "Intermediate",
       description: "Explore the nuances of modern poetry",
       timeFrame: "20 days",
-      bookTopic: "modern poetry" // Changed to topic
+      bookTopic: "modern poetry"
     },
     {
       title: "Historical Epic",
       difficulty: "Advanced",
       description: "Immerse yourself in a comprehensive historical account",
       timeFrame: "60 days",
-      bookTopic: "world war history" // Changed to topic
+      bookTopic: "world war history"
     },
     {
       title: "Philosophy Introduction",
       difficulty: "Beginner",
       description: "Start your philosophical journey with an accessible text",
       timeFrame: "21 days",
-      bookTopic: "introduction to philosophy" // Changed to topic
+      bookTopic: "introduction to philosophy"
     }
   ];
 
   // Complete a challenge and save to DB
   const completeChallenge = async (challenge, index) => {
     const xpAwarded = difficultyLevels[challenge.difficulty]?.xp || 0;
-    
+
     try {
       // Save completed challenge to the user's history in the database
       await axios.post('http://localhost:5000/api/completed-challenges', {
@@ -253,9 +261,13 @@ const Challenges = () => {
         completedDate: new Date()
       });
 
-      // Add the awarded XP to the global total XP
-      await axios.post('http://localhost:5000/api/add-xp', { xp: xpAwarded });
-      setTotalXP(prev => prev + xpAwarded);
+      // Add the awarded XP to the global total XP and get the updated total
+      const response = await axios.post('http://localhost:5000/api/add-xp', { xp: xpAwarded });
+      const newTotalXP = response.data.totalXP; // Get the new total XP from the response
+      setTotalXP(newTotalXP); // Update local totalXP state
+      if (onXPUpdate) {
+        onXPUpdate(newTotalXP); // Inform the parent (Dashboard) about the new total XP
+      }
 
       // Update local state for completed challenges and user XP
       const newCompleted = [...completedChallenges, {
@@ -263,7 +275,7 @@ const Challenges = () => {
         xp: xpAwarded,
         completedDate: new Date().toISOString()
       }];
-      
+
       setCompletedChallenges(newCompleted);
       setUserXP(userXP + xpAwarded);
 
@@ -274,7 +286,7 @@ const Challenges = () => {
       // Persist the updated state to local storage
       localStorage.setItem('userXP', JSON.stringify(userXP + xpAwarded));
       localStorage.setItem('completedChallenges', JSON.stringify(newCompleted));
-      
+
       showNotification(`Challenge completed! +${xpAwarded} XP earned. Your Total XP: ${userXP + xpAwarded}`, 'success');
     } catch (error) {
       console.error('Failed to save challenge:', error);
@@ -282,18 +294,18 @@ const Challenges = () => {
 
       // Fallback to local storage updates if API call fails
       const newXP = userXP + xpAwarded;
-      const newCompleted = [...completedChallenges, { 
-        ...challenge, 
+      const newCompleted = [...completedChallenges, {
+        ...challenge,
         completedDate: new Date().toISOString(),
         xp: xpAwarded
       }];
-      
+
       setUserXP(newXP);
       setCompletedChallenges(newCompleted);
-      
+
       localStorage.setItem('userXP', JSON.stringify(newXP));
       localStorage.setItem('completedChallenges', JSON.stringify(newCompleted));
-      
+
       const updatedChallenges = challenges.filter((_, i) => i !== index);
       setChallenges(updatedChallenges);
     }
@@ -304,7 +316,7 @@ const Challenges = () => {
       {/* Notification Message */}
       {notification.message && (
         <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-2xl backdrop-blur-sm border text-sm font-medium
-          ${notification.type === 'success' ? 'bg-emerald-500/90 border-emerald-400/50' : 'bg-red-500/90 border-red-400/50'} 
+          ${notification.type === 'success' ? 'bg-emerald-500/90 border-emerald-400/50' : 'bg-red-500/90 border-red-400/50'}
           text-white transition-all duration-300 animate-pulse`}>
           <div className="flex items-center gap-2">
             {notification.type === 'success' ? (
@@ -331,7 +343,6 @@ const Challenges = () => {
             <p className="text-slate-400 text-sm">Level up your reading journey</p>
           </div>
           <div className="flex items-center gap-3">
-            {/* User XP Display */}
             <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-4 py-2 rounded-full shadow-lg">
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -348,13 +359,13 @@ const Challenges = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Generate Button */}
-        <button 
+        <button
           onClick={generateChallenges}
           disabled={loading}
-          className="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 
-                     disabled:from-slate-700 disabled:to-slate-600 px-6 py-4 rounded-xl transition-all duration-300 
+          className="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700
+                     disabled:from-slate-700 disabled:to-slate-600 px-6 py-4 rounded-xl transition-all duration-300
                      shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 disabled:cursor-not-allowed
                      border border-blue-500/20 hover:border-blue-400/40"
         >
@@ -387,21 +398,21 @@ const Challenges = () => {
             </div>
           </div>
         )}
-        
+
         {/* Active Challenges */}
         <div className="space-y-4 mb-8">
           {challenges.map((challenge, index) => (
-            <div key={index} className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-slate-700/50 
-                                       hover:bg-slate-800/70 transition-all duration-300 hover:border-slate-600/50 
-                                       hover:shadow-2xl hover:transform hover:scale-[1.02]">
+            <div key={index} className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-slate-700/50
+                                         hover:bg-slate-800/70 transition-all duration-300 hover:border-slate-600/50
+                                         hover:shadow-2xl hover:transform hover:scale-[1.02]">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
                 <h3 className="font-bold text-lg text-slate-100 flex-1 min-w-0">{challenge.title}</h3>
                 <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className={`text-xs px-3 py-1 rounded-full ${difficultyLevels[challenge.difficulty]?.color || 'bg-gray-500'} 
+                  <span className={`text-xs px-3 py-1 rounded-full ${difficultyLevels[challenge.difficulty]?.color || 'bg-gray-500'}
                                      text-white font-semibold shadow-lg`}>
                     {challenge.difficulty}
                   </span>
-                  <div className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30 
+                  <div className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30
                                  px-3 py-1 rounded-full">
                     <span className="text-sm text-yellow-300 font-bold">
                       +{difficultyLevels[challenge.difficulty]?.xp || 0} XP
@@ -409,13 +420,13 @@ const Challenges = () => {
                   </div>
                 </div>
               </div>
-              
+
               <p className="text-sm text-slate-300 mb-4 leading-relaxed">{challenge.description}</p>
-              
+
               <div className="bg-slate-900/30 p-4 rounded-lg mb-4 border border-slate-700/30">
                 <div className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                           d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                   </svg>
                   <div className="min-w-0 flex-1">
@@ -428,19 +439,19 @@ const Challenges = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div className="flex items-center gap-2 text-slate-400">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                   <span className="text-sm">{challenge.timeFrame}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => completeChallenge(challenge, index)}
-                  className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 
-                             px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 shadow-lg 
+                  className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600
+                             px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 shadow-lg
                              hover:shadow-xl transform hover:scale-105 flex items-center gap-2 justify-center"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -451,12 +462,12 @@ const Challenges = () => {
               </div>
             </div>
           ))}
-          
+
           {challenges.length === 0 && !loading && (
             <div className="text-center py-12">
               <div className="bg-slate-800/30 rounded-xl p-8 border border-slate-700/30">
                 <svg className="w-16 h-16 text-slate-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                 </svg>
                 <p className="text-slate-400 text-lg">Ready to start your reading adventure?</p>
@@ -482,20 +493,20 @@ const Challenges = () => {
             </h3>
             <div className="grid gap-4">
               {completedChallenges.slice(-5).reverse().map((challenge, index) => (
-                <div key={index} className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl 
-                                           backdrop-blur-sm hover:bg-emerald-500/20 transition-all duration-300">
+                <div key={index} className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl
+                                             backdrop-blur-sm hover:bg-emerald-500/20 transition-all duration-300">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold text-emerald-100 mb-1">{challenge.title}</div>
                       <div className="text-emerald-300 text-sm flex items-center gap-2">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                         Completed: {new Date(challenge.completedDate).toLocaleDateString()}
                       </div>
                     </div>
-                    <div className="bg-emerald-600/30 border border-emerald-500/40 text-emerald-200 text-sm font-bold 
+                    <div className="bg-emerald-600/30 border border-emerald-500/40 text-emerald-200 text-sm font-bold
                                      px-3 py-1 rounded-full flex items-center gap-1">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
