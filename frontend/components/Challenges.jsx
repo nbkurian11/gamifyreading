@@ -88,8 +88,8 @@ const Challenges = () => {
           temperature: 0.7,
           topK: 40,
           topP: 0.95,
-          responseMimeType: "application/json", // Ensure JSON output
-          responseSchema: { // Define the schema for structured output
+          responseMimeType: "application/json", 
+          responseSchema: { 
             type: "ARRAY",
             items: {
               type: "OBJECT",
