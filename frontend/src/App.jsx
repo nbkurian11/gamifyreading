@@ -4,9 +4,12 @@ import UserLogin from '../components/UserLogin'
 const App = () => {
   return (
     <div className="text-4xl text-amber-500">
-      <UserLogin/>
-      <LeaderboardComponent/>
+      <div>
+        <UserLogin/>
+      </div>
+      
     </div>
+
   )
 }
 
