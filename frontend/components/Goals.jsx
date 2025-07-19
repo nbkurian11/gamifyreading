@@ -7,7 +7,7 @@ const Goals = () => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState({ message: '', type: '' });
 
-  const apiKey = "AIzaSyAEnwruwQVnvi0n7G6zKxG6pr9mi0rN0eA";
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   const MAX_IDEAS = 20;
 
   const showNotification = (message, type = 'success') => {
