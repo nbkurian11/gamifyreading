@@ -36,7 +36,7 @@ const Homepage = () => {
           <Challenges />
         </div>
         
-        <div className="col-span-2 row-span-2 col-start-5 row-start-4 bg-amber-300">
+        <div className="col-span-2 row-span-2 col-start-5 row-start-4">
           <Sprite />
         </div>
       </div>
