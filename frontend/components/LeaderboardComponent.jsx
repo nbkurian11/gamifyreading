@@ -2,7 +2,7 @@ import React from 'react'
 
 const LeaderboardComponent = () => {
   return (
-    <div className='text-blue-700'>
+    <div className='text-blue-800'>
       TeSt2 hjjgjhj
     </div>
   )
