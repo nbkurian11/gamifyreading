@@ -7,6 +7,7 @@ const Challenges = () => {
   const [completedChallenges, setCompletedChallenges] = useState([]);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState({ message: '', type: '' }); // For custom notifications
+  const [showCompleted, setShowCompleted] = useState(false);
   
   // This is the new state to track the total XP for all users combined (or a global tally)
   const [totalXP, setTotalXP] = useState(0);
@@ -136,12 +137,7 @@ const Challenges = () => {
                 title: { type: "STRING" },
                 difficulty: { type: "STRING", enum: ["Beginner", "Intermediate", "Advanced", "Expert", "Master"] },
                 description: { type: "STRING" },
-<<<<<<< HEAD
                 bookTopic: { type: "STRING" } // Changed from bookSuggestion to bookTopic
-=======
-                timeFrame: { type: "STRING" },
-                bookTopic: { type: "STRING" }
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
               },
               required: ["title", "difficulty", "description", "bookTopic"]
             }
@@ -323,7 +319,7 @@ const Challenges = () => {
         </div>
       )}
 
-      <div className="p-4 sm:p-10 ">
+      <div className="sm:p-10 ">
         {/* Header Section */}
         <div className=" sm:justify-between sm:items-center gap-4 mb-8">
           <div className="space-y-2">
@@ -332,50 +328,26 @@ const Challenges = () => {
             </h2>
             <p className="text-[#FBF3E9] font-secondary text-lg text-center">Level up your reading journey!</p>
           </div>
-<<<<<<< HEAD
           {/* <div className="flex items-center gap-3"> */}
             {/* <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-4 py-2 rounded-full shadow-lg">
-=======
-          <div className="flex items-center gap-3">
-            {/* User XP Display */}
-            <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-4 py-2 rounded-full shadow-lg">
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                 </svg>
                 <span className="font-bold text-white">{userXP.toLocaleString()} XP</span>
               </div>
-<<<<<<< HEAD
             </div> */}
           {/* </div> */}
-=======
-            </div>
-            {/* Global XP Display */}
-            <div className="bg-slate-700 px-4 py-2 rounded-full shadow-lg">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-300 text-sm">Global XP: {totalXP.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
         </div>
         
         {/* Generate Button */}
         <button 
           onClick={generateChallenges}
           disabled={loading}
-<<<<<<< HEAD
           className="w-full mb-6 bg-[#90A844] hover:from-[#90A844]
                    disabled:from-slate-700 disabled:to-slate-600 px-6 py-4 rounded-4xl transition-all duration-300 
                    shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 disabled:cursor-not-allowed
                    border border-blue-500/20 hover:border-blue-400/40"
-=======
-          className="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 
-                     disabled:from-slate-700 disabled:to-slate-600 px-6 py-4 rounded-xl transition-all duration-300 
-                     shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 disabled:cursor-not-allowed
-                     border border-blue-500/20 hover:border-blue-400/40"
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
         >
           {loading ? (
             <div className="flex items-center justify-center">
@@ -408,7 +380,6 @@ const Challenges = () => {
         )}
         
         {/* Active Challenges */}
-<<<<<<< HEAD
         <div class="h-80 overflow-y-auto p-3 rounded-lg">
           <div className="space-y-4 mb-8">
             {challenges.map((challenge, index) => (
@@ -421,24 +392,6 @@ const Challenges = () => {
                     <span className={`text-xs px-3 py-1 rounded-full ${difficultyLevels[challenge.difficulty]?.color || 'bg-gray-500'} 
                                     text-white font-semibold shadow-lg`}>
                       {challenge.difficulty}
-=======
-        <div className="space-y-4 mb-8">
-          {challenges.map((challenge, index) => (
-            <div key={index} className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-slate-700/50 
-                                       hover:bg-slate-800/70 transition-all duration-300 hover:border-slate-600/50 
-                                       hover:shadow-2xl hover:transform hover:scale-[1.02]">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
-                <h3 className="font-bold text-lg text-slate-100 flex-1 min-w-0">{challenge.title}</h3>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className={`text-xs px-3 py-1 rounded-full ${difficultyLevels[challenge.difficulty]?.color || 'bg-gray-500'} 
-                                     text-white font-semibold shadow-lg`}>
-                    {challenge.difficulty}
-                  </span>
-                  <div className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30 
-                                 px-3 py-1 rounded-full">
-                    <span className="text-sm text-yellow-300 font-bold">
-                      +{difficultyLevels[challenge.difficulty]?.xp || 0} XP
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
                     </span>
                     <div className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30 
                                   px-3 py-1 rounded-full">
@@ -494,96 +447,71 @@ const Challenges = () => {
                   <p className="text-[#F8F3E8]/60 text-sm mt-2">Click "Generate New Challenges" to begin!</p>
                 </div>
               </div>
-<<<<<<< HEAD
             )}
           </div>
-=======
-              
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                <div className="flex items-center gap-2 text-slate-400">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <span className="text-sm">{challenge.timeFrame}</span>
-                </div>
-                <button 
-                  onClick={() => completeChallenge(challenge, index)}
-                  className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 
-                             px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 shadow-lg 
-                             hover:shadow-xl transform hover:scale-105 flex items-center gap-2 justify-center"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  Complete Challenge
-                </button>
-              </div>
-            </div>
-          ))}
-          
-          {challenges.length === 0 && !loading && (
-            <div className="text-center py-12">
-              <div className="bg-slate-800/30 rounded-xl p-8 border border-slate-700/30">
-                <svg className="w-16 h-16 text-slate-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-                <p className="text-slate-400 text-lg">Ready to start your reading adventure?</p>
-                <p className="text-slate-500 text-sm mt-2">Click "Generate New Challenges" to begin!</p>
-              </div>
-            </div>
-          )}
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
         </div>
 
         {/* Completed Challenges */}
         {completedChallenges.length > 0 && (
-          <div className="border-t border-slate-700/50 pt-8">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-slate-100">
-              <div className="bg-[#90A844] p-2 rounded-lg">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              Completed Challenges
-              <span className="bg-[#2A8804]/20 text-[#F8F3E8] text-sm px-3 py-1 rounded-full border border-[#90A844]/30">
-                {completedChallenges.length}
-              </span>
-            </h3>
-            <div className="grid gap-4">
-              {completedChallenges.slice(-5).reverse().map((challenge, index) => (
-                <div key={index} className="bg-[#2A8804]/10 border border-[#2A8804]/20 p-4 rounded-xl 
-                                           backdrop-blur-sm hover:bg-emerald-500/20 transition-all duration-300">
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-emerald-100 mb-1">{challenge.title}</div>
-                      <div className="text-[#A5FC83]/90 text-sm flex items-center gap-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                        Completed: {new Date(challenge.completedDate).toLocaleDateString()}
-                      </div>
-                    </div>
-<<<<<<< HEAD
-                    <div className="bg-[#2A8804]/30 border border-[#2A8804]/40 text-[#F8F3E8] text-sm font-bold 
-                                  px-3 py-1 rounded-full flex items-center gap-1">
-=======
-                    <div className="bg-emerald-600/30 border border-emerald-500/40 text-emerald-200 text-sm font-bold 
-                                     px-3 py-1 rounded-full flex items-center gap-1">
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                      </svg>
-                      +{difficultyLevels[challenge.difficulty]?.xp || 0} XP
-                    </div>
+  <div className="border-t border-slate-700/50 pt-8">
+    <button
+      onClick={() => setShowCompleted(prev => !prev)}
+      className="w-full text-left text-xl font-bold mb-6 flex items-center justify-between gap-3 text-slate-100"
+    >
+      <div className="flex items-center gap-3">
+        <div className="bg-[#90A844] p-2 rounded-lg">
+          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        Completed Challenges
+      </div>
+      <span className="bg-[#2A8804]/20 text-[#F8F3E8] text-sm px-3 py-1 rounded-full border border-[#90A844]/30">
+        {completedChallenges.length}
+      </span>
+    </button>
+
+    {showCompleted && (
+      <div className="max-h-20 overflow-y-auto pr-2 scroll-smooth">
+        <div className="grid gap-4">
+          {completedChallenges.slice(-5).reverse().map((challenge, index) => (
+            <div
+              key={index}
+              className="bg-[#2A8804]/10 border border-[#2A8804]/20 p-4 rounded-xl backdrop-blur-sm hover:bg-emerald-500/20 transition-all duration-300"
+            >
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-emerald-100 mb-1">{challenge.title}</div>
+                  <div className="text-[#A5FC83]/90 text-sm flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    Completed: {new Date(challenge.completedDate).toLocaleDateString()}
                   </div>
                 </div>
-              ))}
+                <div className="bg-[#2A8804]/30 border border-[#2A8804]/40 text-[#F8F3E8] text-sm font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  +{difficultyLevels[challenge.difficulty]?.xp || 0} XP
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+)}
       </div>
     </div>
   );
