@@ -23,26 +23,32 @@ const Header = () => {
 
 const UserLogin = () => {
   const [activeTab, setActiveTab] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
+  const [email, setEmail] = useState(''); // State for login email
+  const [password, setPassword] = useState(''); // State for login password
+  const [username, setUsername] = useState(''); // State for register username
+  const [registerEmail, setRegisterEmail] = useState(''); // State for register email
+  const [registerPassword, setRegisterPassword] = useState(''); // State for register password
 
+  // Function to redirect to the homepage
   const handleRedirect = () => {
-    // Redirect to homepage immediately when typing
-    window.location.href = '/home'; // or '/homepage' depending on your setup
+    window.location.href = '/home'; // Redirects to the /home route
   };
 
+  // Handles the login form submission
   const handleLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents default form submission behavior
     console.log('Login attempt with:', { email, password });
+    // In a real application, you would send this data to your backend for authentication.
+    // For now, it just logs and redirects.
     handleRedirect();
   };
 
+  // Handles the registration form submission
   const handleRegister = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents default form submission behavior
     console.log('Register attempt with:', { username, registerEmail, registerPassword });
+    // In a real application, you would send this data to your backend to create a new user.
+    // For now, it just logs and redirects.
     handleRedirect();
   };
 
@@ -53,67 +59,67 @@ const UserLogin = () => {
       {/* Main layout using responsive grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto w-full gap-8 mt-5">
 
-        {/* Left column */}
+        {/* Left column: Contains the title, description, and login/register forms */}
         <div className="space-y-4 text-center">
           <div>
-            <img src="bookstar.png" className="mx-auto w-45 h-20" alt="React Image" />
+            {/* Image for "BookStar" - ensure 'bookstar.png' is in your public folder or accessible */}
+            <img src="bookstar.png" className="mx-auto w-45 h-20" alt="BookStar Image" />
           </div>
 
           <div className="text-8xl font-primary text-[#301204]">SproutTale</div>
 
+          {/* Tagline/description */}
           <div className="text-2xl font-secondary font-bold text-[#6E431F]">
             Level up as you read and watch your buddy grow!
           </div>
 
           <div className="p-6 rounded-xl w-full">
-            {/* Tabs */}
+            {/* Tabs for switching between Login and Register forms */}
             <div className="grid grid-cols-2 mb-4 text-center">
               <button
                 onClick={() => setActiveTab('login')}
-                className={`py-2 font-semibold ${
+                className={`py-2 font-semibold rounded-tl-lg rounded-tr-lg transition-colors duration-300 ${
                   activeTab === 'login'
                     ? 'border-b-2 border-[#43A81B] text-[#43A81B]'
-                    : 'text-[#98673E]'
+                    : 'text-[#98673E] hover:text-[#6E431F]'
                 }`}
               >
                 Login
               </button>
               <button
                 onClick={() => setActiveTab('register')}
-                className={`py-2 font-semibold ${
+                className={`py-2 font-semibold rounded-tl-lg rounded-tr-lg transition-colors duration-300 ${
                   activeTab === 'register'
                     ? 'border-b-2 border-[#43A81B] text-[#43A81B]'
-                    : 'text-[#98673E]'
+                    : 'text-[#98673E] hover:text-[#6E431F]'
                 }`}
               >
                 Register
               </button>
             </div>
 
-            {/* Forms */}
+            {/* Conditional rendering of Login or Register forms based on activeTab state */}
             {activeTab === 'login' ? (
               <div className="space-y-5">
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61] placeholder-[#C28D61]"
                   placeholder="Email address"
+                  required
                 />
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61] placeholder-[#C28D61]"
                   placeholder="Password"
+                  required
                 />
                 <button
-                  onClick={handleLogin}
-                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-full hover:bg-[#2A8804]"
+                  onClick={handleLogin} // Calls handleLogin on click
+                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-full hover:bg-[#2A8804] transition-colors duration-300"
                 >
                   Log In
                 </button>
@@ -131,36 +137,30 @@ const UserLogin = () => {
                 <input
                   type="text"
                   value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  
-                  }}
-                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61] placeholder-[#C28D61]"
                   placeholder="Username"
+                  required
                 />
                 <input
                   type="email"
                   value={registerEmail}
-                  onChange={(e) => {
-                    setRegisterEmail(e.target.value);
-                   
-                  }}
-                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61] placeholder-[#C28D61]"
                   placeholder="Email address"
+                  required
                 />
                 <input
                   type="password"
                   value={registerPassword}
-                  onChange={(e) => {
-                    setRegisterPassword(e.target.value);
-                 
-                  }}
-                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                  className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61] placeholder-[#C28D61]"
                   placeholder="Password"
+                  required
                 />
                 <button
-                  onClick={handleRegister}
-                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-full hover:bg-[#2A8804]"
+                  onClick={handleRegister} // Calls handleRegister on click
+                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-full hover:bg-[#2A8804] transition-colors duration-300"
                 >
                   Register
                 </button>
@@ -175,9 +175,10 @@ const UserLogin = () => {
           </div>
         </div>
 
-        {/* Right column */}
+        {/* Right column: Displays the creature image */}
         <div className="text-center">
-          <img src="creature.png" className="mx-auto w-100 h-100 md:w-120 md:h-120 mt-10" alt="React Image" />
+          {/* Image for the creature - ensure 'creature.png' is in your public folder or accessible */}
+          <img src="creature.png" className="mx-auto w-100 h-100 md:w-120 md:h-120 mt-10" alt="Creature Image" />
         </div>
       </div>
     </div>
