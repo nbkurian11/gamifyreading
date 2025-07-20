@@ -179,7 +179,7 @@ Example:
                     <button
                         onClick={() => generateMicroChallenges(false)}
                         disabled={loading}
-                        className="flex-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 hover:from-cyan-500 hover:to-blue-700 disabled:opacity-50 px-4 py-3 rounded-2xl shadow-[0_0_20px_rgba(0,255,255,0.7)] transition-colors flex justify-center items-center font-bold text-white"
+                        className="flex-1  bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 hover:from-cyan-500 hover:to-blue-700 disabled:opacity-50 px-4 py-3 rounded-2xl shadow-[0_0_20px_rgba(0,255,255,0.7)] transition-colors flex justify-center items-center font-bold text-white"
                     >
                         {loading ? (
                             <>
