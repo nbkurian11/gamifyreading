@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-// Sprite component displays level progress based on XP
-const Sprite = ({ xpList = [], totalXP: totalXPProp = 0, isLoading }) => {
+const Sprite = ({ xpList = [], totalXP: totalXPProp = 0, isLoading: loadingProp = false }) => {
     const XP_PER_LEVEL = 100;
     const XP_MULTIPLIER = 1.5;
 
-    // Sum XP values from an array if provided, otherwise use totalXPProp
+    const [fetchedXP, setFetchedXP] = useState(null);
+    const [isLoading, setIsLoading] = useState(loadingProp);
+
+    // Fetch global total XP from backend
+    useEffect(() => {
+        if (xpList.length === 0 && !totalXPProp) {
+            setIsLoading(true);
+            fetch('http://localhost:5000/api/total-xp')
+                .then(res => res.json())
+                .then(data => {
+                    setFetchedXP(data.totalXP || 0);
+                    setIsLoading(false);
+                })
+                .catch(err => {
+                    console.error('Failed to fetch total XP:', err);
+                    setFetchedXP(0);
+                    setIsLoading(false);
+                });
+        }
+    }, [xpList, totalXPProp]);
+
+    // Sum XP values from an array if provided, otherwise use props or fetched XP
     const totalXP = xpList.length
         ? xpList.reduce((sum, xp) => sum + (Number(xp) || 0), 0)
-        : Number(totalXPProp) || 0;
+        : totalXPProp || fetchedXP || 0;
 
     const getLevelInfo = (xp) => {
         let level = 1;
@@ -36,7 +56,6 @@ const Sprite = ({ xpList = [], totalXP: totalXPProp = 0, isLoading }) => {
 
     const { level, xpIntoLevel, xpNeededForNext, progressPercentage } = getLevelInfo(totalXP);
 
-    // Optional loading state
     if (isLoading) {
         return <div className="text-center text-white">Loading...</div>;
     }
