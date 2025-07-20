@@ -13,14 +13,15 @@ const generateToken = (id) => {
 };
 
 router.post('/register', asyncHandler(async (req, res) => {
-    const { username, password } = req.body;
+    const { email ,username, password } = req.body;
 
-    if (!username || !password) {
+    if (!username || !password || !email) {
         res.status(400);
         throw new Error('Please enter all fields (username and password)');
     }
 
     const userExists = await User.findOne({ username });
+    console.log('Checking if user exists:', username, userExists);
     if (userExists) {
         res.status(400);
         throw new Error('User with that username already exists');
@@ -29,6 +30,7 @@ router.post('/register', asyncHandler(async (req, res) => {
     const user = await User.create({
         username,
         password,
+        email
     });
 
     if (user) {
@@ -55,7 +57,10 @@ router.post('/test-insert', async (req, res) => {
 
 router.post('/login', asyncHandler(async (req, res) => {
     const { username, password } = req.body;
-
+    return res.status(200).json({
+        message: 'Login successful',
+        username: username,
+    })
     const user = await User.findOne({ username });
 
     if (user && (await user.matchPassword(password))) {

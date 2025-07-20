@@ -29,29 +29,21 @@ const UserLogin = () => {
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
 
+  const handleRedirect = () => {
+    // Redirect to homepage immediately when typing
+    window.location.href = '/home'; // or '/homepage' depending on your setup
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
-    // Always succeed regardless of input
     console.log('Login attempt with:', { email, password });
-    
-    // Redirect to homepage - adjust this path based on your routing setup
-    // Option 1: If using React Router
-    // navigate('/'); or navigate('/homepage');
-    
-    // Option 2: Simple redirect
-    window.location.href = '/'; // or '/homepage' depending on your setup
-    
-    // Option 3: If you have a callback function to handle navigation
-    // props.onLogin && props.onLogin();
+    handleRedirect();
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // Always succeed regardless of input
     console.log('Register attempt with:', { username, registerEmail, registerPassword });
-    
-    // Redirect to homepage after "registration"
-    window.location.href = '/'; // or '/homepage' depending on your setup
+    handleRedirect();
   };
 
   return (
@@ -100,48 +92,81 @@ const UserLogin = () => {
 
             {/* Forms */}
             {activeTab === 'login' ? (
-              <form className="space-y-5">
+              <div className="space-y-5">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
                   placeholder="Email address"
                 />
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
                   placeholder="Password"
                 />
                 <button
-                  type="submit"
-                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-4xl hover:bg-[#2A8804]"
+                  onClick={handleLogin}
+                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-full hover:bg-[#2A8804]"
                 >
                   Log In
                 </button>
-              </form>
+                <div className="text-center">
+                  <p className="text-xs text-[#98673E]">
+                    Start typing in any field to go to homepage
+                  </p>
+                </div>
+              </div>
             ) : (
-              <form className="space-y-4">
+              <div className="space-y-4">
                 <input
                   type="text"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  
+                  }}
                   className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
                   placeholder="Username"
                 />
                 <input
                   type="email"
+                  value={registerEmail}
+                  onChange={(e) => {
+                    setRegisterEmail(e.target.value);
+                   
+                  }}
                   className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
                   placeholder="Email address"
                 />
                 <input
                   type="password"
+                  value={registerPassword}
+                  onChange={(e) => {
+                    setRegisterPassword(e.target.value);
+                 
+                  }}
                   className="block w-full px-5 py-3 bg-[#FAF3E9] border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-[#43A81B] font-secondary text-[#C28D61]"
                   placeholder="Password"
                 />
                 <button
-                  type="submit"
-                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-4xl hover:bg-[#2A8804]"
+                  onClick={handleRegister}
+                  className="w-full py-3 px-4 bg-[#88572E] text-white font-semibold rounded-full hover:bg-[#2A8804]"
                 >
                   Register
                 </button>
-              </form>
+                <div className="text-center">
+                  <p className="text-xs text-[#98673E]">
+                    Start typing in any field to go to homepage
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>
