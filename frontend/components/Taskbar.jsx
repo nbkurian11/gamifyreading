@@ -149,11 +149,7 @@ const SlidingTaskbar = ({ userXP = 0, selectedItems = {}, onNavigate, onItemSele
         {/* Navigation Section */}
         <div className="p-4 border-b border-slate-700/50">
           <button
-<<<<<<< HEAD
-            onClick={() => handleNavigation('http://localhost:5173/leaderboard')}
-=======
             onClick={() => handleNavigation('/leaderboard')}
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
             className="w-full flex items-center gap-3 p-3 text-left bg-gradient-to-r from-yellow-500/10 to-orange-500/10 
                      hover:from-yellow-500/20 hover:to-orange-500/20 border border-yellow-500/20 rounded-xl 
                      transition-all duration-200 group hover:transform hover:scale-[1.02] text-white"
