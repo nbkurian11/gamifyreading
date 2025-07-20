@@ -11,14 +11,6 @@ const Homepage = () => {
   const [userXP, setUserXP] = useState(350);
   const navigate = useNavigate(); // Add this line
 
-<<<<<<< HEAD
-  // Handle navigation from taskbar
-  const handleNavigation = (route) => {
-    console.log('Navigating to:', route);
-    // Add your navigation logic here
-
-  };
-=======
  const handleNavigation = (route) => {
   console.log('Navigating to:', route);
   
@@ -29,7 +21,6 @@ const Homepage = () => {
     navigate(route);
   }
 };
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
 
   return (
     <div className="relative min-h-screen">
@@ -38,14 +29,9 @@ const Homepage = () => {
         onNavigate={handleNavigation} 
       /> 
 
-<<<<<<< HEAD
       <div className="grid grid-cols-7 grid-rows-5 gap-4 min-h-screen bg-gradient-to-b from-[#FAF8F2] to-[#F4DFC2] p-4">
         <div className="col-span-3 row-span-5 bg-gradient-to-br from-[#0c0f1a] to-[#111827] rounded-2xl shadow-xl p-4">
 
-=======
-      <div className="grid grid-cols-6 grid-rows-5 gap-4 min-h-screen p-4">
-        <div className="col-span-2 row-span-5 bg-gradient-to-br from-[#0c0f1a] to-[#111827] rounded-2xl shadow-xl p-4">
->>>>>>> a535185dc31bef9c4d16a8dd13a40c82ba509b8a
           <CurrentRead />  
         </div>
         

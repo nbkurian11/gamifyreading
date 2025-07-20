@@ -76,13 +76,12 @@ const Sprite = ({ totalXP = 0, isLoading }) => {
     const { level, progressPercentage, xpIntoCurrentLevel, xpNeededForNextLevel } = getLevelInfo(totalXP);
 
     return (
-        <div className="flex bg-[#1a2232] text-white rounded-xl p-6 shadow-lg max-w-4xl mx-auto mt-10"
+        <div className="flex text-white rounded-xl p-6 shadow-lg max-w-4xl mx-auto mt-2"
             style={{
-                background: 'linear-gradient(135deg, #1a2232 0%, #2d3748 50%, #1a2232 100%)'
             }}>
-            <div className="w-1/3 space-y-4">
+            <div className="w-1/2 space-y-4">
                 <div>
-                    <h2 className="text-2xl font-bold">The Community's Sprite</h2>
+                    <h2 className="text-2xl font-bold">Your buddy!</h2>
                     <p className="text-yellow-400 text-xl font-bold">Level {level}</p>
                 </div>
 
@@ -102,7 +101,7 @@ const Sprite = ({ totalXP = 0, isLoading }) => {
 
             <div className="w-2/3 flex flex-col items-center justify-center">
                 <CatSprite level={level} />
-                <p className="text-lg font-semibold text-yellow-300 mt-4">Mr. Readalot</p>
+                <p className="text-lg font-semibold text-yellow-300 mt-4">Sprout</p>
             </div>
         </div>
     );
