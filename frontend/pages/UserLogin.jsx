@@ -5,7 +5,7 @@ const Header = () => {
     <header className="w-full">
       <div className="max-w-7xl mx-auto px-4 py-3 grid grid-cols-2 items-center">
         {/* Logo (left) */}
-        <div className="text-2xl font-primary text-[#D3B7A0]">Gamify</div>
+        <div className="text-2xl font-primary text-[#D3B7A0]">SproutTale</div>
 
         {/* Links (right) */}
         <nav className="justify-self-end space-x-6">
@@ -59,7 +59,7 @@ const UserLogin = () => {
             <img src="bookstar.png" className="mx-auto w-45 h-20" alt="React Image" />
           </div>
 
-          <div className="text-8xl font-primary text-[#301204]">Gamify Reading</div>
+          <div className="text-8xl font-primary text-[#301204]">SproutTale</div>
 
           <div className="text-2xl font-secondary font-bold text-[#6E431F]">
             Level up as you read and watch your buddy grow!
@@ -166,7 +166,8 @@ const UserLogin = () => {
                 </button>
                 <div className="text-center">
                   <p className="text-xs text-[#98673E]">
-                    Start typing in any field to go to homepage
+                    "If you don't like to read, you haven't found the right book."
+— J.K. Rowling
                   </p>
                 </div>
               </div>
