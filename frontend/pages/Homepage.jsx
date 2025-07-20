@@ -14,6 +14,7 @@ const Homepage = () => {
   const handleNavigation = (route) => {
     console.log('Navigating to:', route);
     // Add your navigation logic here
+
   };
 
   return (
@@ -23,21 +24,21 @@ const Homepage = () => {
         onNavigate={handleNavigation} 
       />
 
-      <div className="grid grid-cols-6 grid-rows-5 gap-4 min-h-screen p-4">
-        <div className="col-span-2 row-span-5 bg-gradient-to-br from-[#0c0f1a] to-[#111827] rounded-2xl shadow-xl p-4">
+      <div className="grid grid-cols-7 grid-rows-5 gap-4 min-h-screen bg-gradient-to-b from-[#FAF8F2] to-[#F4DFC2] p-4">
+        <div className="col-span-3 row-span-5 bg-gradient-to-br from-[#0c0f1a] to-[#111827] rounded-2xl shadow-xl p-4">
 
           <CurrentRead />  
         </div>
         
-        <div className="col-span-2 row-span-5 col-start-3">
+        <div className="col-span-2 row-span-5 col-start-4">
           <Goals />
         </div>
 
-        <div className="col-span-2 row-span-3 col-start-5">
+        <div className="col-span-2 row-span-3 col-start-6">
           <Challenges />
         </div>
         
-        <div className="col-span-2 row-span-2 col-start-5 row-start-4">
+        <div className="col-span-2 row-span-2 col-start-6 row-start-4">
           <Sprite />
         </div>
       </div>
