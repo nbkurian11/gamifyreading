@@ -130,7 +130,7 @@ const SlidingTaskbar = ({ userXP = 0, selectedItems = {}, onNavigate, onItemSele
                 </svg>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white">ReadQuest</h2>
+                <h2 className="text-lg font-bold text-white">SproutTale</h2>
                 <p className="text-sm text-slate-400">{userXP} XP</p>
               </div>
             </div>

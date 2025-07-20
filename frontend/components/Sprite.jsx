@@ -7,23 +7,20 @@ const Sprite = ({ xpList = [], totalXP: totalXPProp = 0, isLoading: loadingProp 
     const [fetchedXP, setFetchedXP] = useState(null);
     const [isLoading, setIsLoading] = useState(loadingProp);
 
-    // Fetch global total XP from backend
     useEffect(() => {
-        if (xpList.length === 0 && !totalXPProp) {
-            setIsLoading(true);
-            fetch('http://localhost:5000/api/total-xp')
-                .then(res => res.json())
-                .then(data => {
-                    setFetchedXP(data.totalXP || 0);
-                    setIsLoading(false);
-                })
-                .catch(err => {
-                    console.error('Failed to fetch total XP:', err);
-                    setFetchedXP(0);
-                    setIsLoading(false);
-                });
-        }
-    }, [xpList, totalXPProp]);
+        setIsLoading(true);
+        fetch('http://localhost:5000/api/total-xp')
+            .then(res => res.json())
+            .then(data => {
+                setFetchedXP(data.totalXP || 0);
+                setIsLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch total XP:', err);
+                setFetchedXP(0);
+                setIsLoading(false);
+            });
+    }, [xpList, totalXPProp]); // The dependencies array ensures this runs when props change
 
     // Sum XP values from an array if provided, otherwise use props or fetched XP
     const totalXP = xpList.length
@@ -60,7 +57,6 @@ const Sprite = ({ xpList = [], totalXP: totalXPProp = 0, isLoading: loadingProp 
         return <div className="text-center text-white">Loading...</div>;
     }
 
-    // Cat sprite with conditional accessories
     const CatSprite = () => (
         <div className="relative w-32 h-32">
             <img
