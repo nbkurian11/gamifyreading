@@ -1,27 +1,30 @@
 import React from 'react';
 
-const Sprite = ({ totalXP = 0, isLoading }) => { // Added default 0 for totalXP
-
+const Sprite = ({ totalXP , isLoading }) => {
+    
     const XP_PER_LEVEL = 100;
-    const XP_MULTIPLIER = 1.5; // Controls how much XP is needed for subsequent levels
+    const XP_MULTIPLIER = 1.5;
 
-    // Calculates the current level, progress, and XP details based on total XP
+    // This is the core fix. It creates a safe variable
+    // that is guaranteed to be a number.
+    // If totalXP is undefined, it will be 0. Otherwise, it will be the actual value.
+    const xpToUse = isNaN(parseInt(totalXP)) ? 0 : parseInt(totalXP);
+
     const getLevelInfo = (xp) => {
         let level = 1;
-        let xpForCurrentLevel = 0; // XP accumulated to reach the start of the current level
-        let nextLevelThreshold = XP_PER_LEVEL; // XP needed to reach the next level
+        let xpForCurrentLevel = 0; 
+        let nextLevelThreshold = XP_PER_LEVEL; 
 
-        // Loop to determine the current level
         while (xp >= nextLevelThreshold) {
-            xpForCurrentLevel = nextLevelThreshold; // Store XP at the start of this level
-            level++; // Increment level
-            // Calculate XP needed for the next level, increasing difficulty with a multiplier
+            xpForCurrentLevel = nextLevelThreshold; 
+            level++; 
+            
             nextLevelThreshold += Math.round(XP_PER_LEVEL * Math.pow(XP_MULTIPLIER, level - 1));
         }
 
-        const xpIntoCurrentLevel = xp - xpForCurrentLevel; // XP earned within the current level
-        const xpNeededForNextLevel = nextLevelThreshold - xpForCurrentLevel; // XP required to complete current level
-        const progressPercentage = (xpIntoCurrentLevel / xpNeededForNextLevel) * 100; // Progress as a percentage
+        const xpIntoCurrentLevel = xp - xpForCurrentLevel;
+        const xpNeededForNextLevel = nextLevelThreshold - xpForCurrentLevel; 
+        const progressPercentage = (xpIntoCurrentLevel / xpNeededForNextLevel) * 100; 
 
         return {
             level,
@@ -45,7 +48,8 @@ const Sprite = ({ totalXP = 0, isLoading }) => { // Added default 0 for totalXP
         );
     }
 
-    const { level, progressPercentage, xpIntoCurrentLevel, xpNeededForNextLevel } = getLevelInfo(totalXP);
+    // Now this call is safe because it uses xpToUse, which is always a number.
+    const { level, progressPercentage, xpIntoCurrentLevel, xpNeededForNextLevel } = getLevelInfo(xpToUse);
 
     return (
         <div className="flex flex-col md:flex-row bg-[#1a2232] text-white rounded-xl p-6 shadow-lg max-w-full mx-auto mt-10 gap-6 items-center justify-center">

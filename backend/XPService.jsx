@@ -68,8 +68,15 @@ function getTotalXP() {
 
 // Function to add XP and update global total
 function addXP(xpAmount) {
-    globalTotalXP += xpAmount;
-    console.log(`🎯 Added ${xpAmount} XP. New total: ${globalTotalXP}`);
+    // Typecast the xpAmount to an integer and check if it's a valid number
+    const xpToAdd = parseInt(xpAmount, 10);
+    
+    if (!isNaN(xpToAdd)) {
+        globalTotalXP += xpToAdd;
+        console.log(`🎯 Added ${xpToAdd} XP. New total: ${globalTotalXP}`);
+    } else {
+        console.error(`❌ Invalid XP amount received: ${xpAmount}`);
+    }
 }
 
 // API endpoint to get total XP

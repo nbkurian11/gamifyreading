@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const challengeRoutes = require('./routes/challengeRoutes.js');
-// Corrected line: Removed the extra 'require('./'
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
@@ -71,6 +70,11 @@ async function addXP(xpAmount) {
     }
 }
 
+// Function to get the current in-memory total XP
+function getTotalXP() {
+    return globalTotalXP;
+}
+
 // API endpoint to get total XP
 app.get('/api/total-xp', (req, res) => {
     res.json({ totalXP: globalTotalXP });
@@ -90,7 +94,7 @@ app.post('/api/add-xp', async (req, res) => { // Make this route async
 // API endpoint to recalculate total XP (this will now just reload from the GlobalXP document)
 app.post('/api/recalculate-xp', async (req, res) => {
     try {
-        await calculateTotalXP(); // Reloads from the GlobalXP document
+        await calculateTotalXP(); 
         res.json({
             message: 'XP recalculated successfully',
             totalXP: globalTotalXP
@@ -120,9 +124,8 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-// Export functions for use in other files (though mostly used internally now)
 module.exports = {
-    getTotalXP,
+    getTotalXP, // Now correctly defined and exported
     addXP,
     calculateTotalXP
 };
