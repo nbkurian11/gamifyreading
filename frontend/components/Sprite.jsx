@@ -1,8 +1,6 @@
-// Sprite.js (No changes needed, already correct)
 import React from 'react';
 
-const Sprite = ({ totalXP = 0, isLoading }) => { // Added default 0 for totalXP
-
+const Sprite = ({ totalXP = 0, isLoading }) => {
     const XP_PER_LEVEL = 100;
     const XP_MULTIPLIER = 1.5;
 
@@ -30,13 +28,18 @@ const Sprite = ({ totalXP = 0, isLoading }) => { // Added default 0 for totalXP
     };
 
     if (isLoading) {
-        return <div className="text-center text-white">Loading...</div>;
+        return (
+            <div className="text-center text-white py-8">
+                <p className="animate-pulse text-lg text-gray-400">Loading Sprite...</p>
+            </div>
+        );
     }
 
     const { level, progressPercentage, xpIntoCurrentLevel, xpNeededForNextLevel } = getLevelInfo(totalXP);
 
     return (
         <div className="flex bg-[#1a2232] text-white rounded-xl p-6 shadow-lg max-w-4xl mx-auto mt-10">
+            {/* Left: Info & Progress */}
             <div className="w-1/3 space-y-4">
                 <div>
                     <h2 className="text-2xl font-bold">The Community's Sprite</h2>
@@ -49,7 +52,7 @@ const Sprite = ({ totalXP = 0, isLoading }) => { // Added default 0 for totalXP
                         <div
                             className="h-full bg-yellow-400 transition-all duration-500"
                             style={{ width: `${progressPercentage}%` }}
-                        ></div>
+                        />
                     </div>
                     <p className="text-sm text-gray-400 mt-1">
                         {Math.floor(xpIntoCurrentLevel)} / {Math.floor(xpNeededForNextLevel)} XP
@@ -57,6 +60,7 @@ const Sprite = ({ totalXP = 0, isLoading }) => { // Added default 0 for totalXP
                 </div>
             </div>
 
+            {/* Right: Sprite Display */}
             <div className="w-2/3 flex flex-col items-center justify-center">
                 <div className="bg-gradient-to-b from-sky-800 to-slate-900 rounded-xl w-48 h-48 flex items-center justify-center mb-4 border-2 border-blue-400">
                     <span className="text-gray-400">[ Sprite Placeholder ]</span>
