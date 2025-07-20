@@ -29,11 +29,11 @@ const Sprite = ({ totalXP = 0, isLoading }) => {
 
     // Cat sprite component with accessories
     const CatSprite = ({ level }) => (
-        <div className="relative w-32 h-32">
+        <div className="relative w-50 h-50">
             <img
                 src="../images/spritecat.png"
                 alt="Pixel Cat"
-                className="w-32 h-32"
+                className="w-50 h-50"
                 style={{
                     imageRendering: 'pixelated',
                     imageRendering: '-moz-crisp-edges',
@@ -76,18 +76,18 @@ const Sprite = ({ totalXP = 0, isLoading }) => {
     const { level, progressPercentage, xpIntoCurrentLevel, xpNeededForNextLevel } = getLevelInfo(totalXP);
 
     return (
-        <div className="flex text-white rounded-xl p-6 shadow-lg max-w-4xl mx-auto mt-2"
+        <div className="flex text-white rounded-xl p-6  max-w-4xl mx-auto mt-2"
             style={{
             }}>
             <div className="w-1/2 space-y-4">
                 <div>
-                    <h2 className="text-2xl font-bold">Your buddy!</h2>
-                    <p className="text-yellow-400 text-xl font-bold">Level {level}</p>
+                    <h2 className="text-3xl text-[#B17039] font-bold mt-10">Your buddy!</h2>
+                    <p className="text-[#90A844] text-xl font-bold">Level {level}</p>
                 </div>
 
                 <div>
-                    <p className="text-sm text-gray-300 mb-1">Progress</p>
-                    <div className="w-full h-4 bg-gray-700 rounded-full overflow-hidden">
+                    <p className="text-sm text-[#B17039] mt-5 mb-1">Progress</p>
+                    <div className="w-full h-4 bg-[#90A844] rounded-full overflow-hidden">
                         <div
                             className="h-full bg-yellow-400 transition-all duration-500"
                             style={{ width: `${progressPercentage}%` }}
@@ -101,7 +101,7 @@ const Sprite = ({ totalXP = 0, isLoading }) => {
 
             <div className="w-2/3 flex flex-col items-center justify-center">
                 <CatSprite level={level} />
-                <p className="text-lg font-semibold text-yellow-300 mt-4">Sprout</p>
+                <p className="text-xl font-semibold text-[#90A844] mt-4">Sprout</p>
             </div>
         </div>
     );

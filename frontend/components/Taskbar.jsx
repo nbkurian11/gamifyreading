@@ -96,7 +96,7 @@ const SlidingTaskbar = ({ userXP = 0, selectedItems = {}, onNavigate, onItemSele
         onClick={() => setIsOpen(!isOpen)}
         className={`fixed top-1/2 -translate-y-1/2 z-50 transition-all duration-300 ease-in-out
           ${isOpen ? 'left-80 opacity-0 pointer-events-none' : 'left-4 opacity-100'}
-          bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700
+          bg-[#613918] hover:to-purple-700
           text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110
           border border-blue-500/30 backdrop-blur-sm`}
         aria-label="Open menu"
@@ -115,7 +115,7 @@ const SlidingTaskbar = ({ userXP = 0, selectedItems = {}, onNavigate, onItemSele
       {/* Sliding Taskbar */}
       <div
         ref={taskbarRef}
-        className={`fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 
+        className={`fixed left-0 top-0 h-full w-80 bg-[#613918]
           shadow-2xl transform transition-transform duration-300 ease-in-out z-50 border-r border-slate-700/50
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
@@ -130,7 +130,7 @@ const SlidingTaskbar = ({ userXP = 0, selectedItems = {}, onNavigate, onItemSele
                 </svg>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white">ReadQuest</h2>
+                <h2 className="text-lg font-bold text-white">SproutTale</h2>
                 <p className="text-sm text-slate-400">{userXP} XP</p>
               </div>
             </div>
@@ -256,8 +256,8 @@ const SlidingTaskbar = ({ userXP = 0, selectedItems = {}, onNavigate, onItemSele
         </div>
 
         {/* Footer */}
-        <div className="border-t border-slate-700/50 p-4 bg-slate-900/80">
-          <div className="flex items-center justify-between text-slate-400 text-xs">
+        <div className="border-t border-[#F4E1C6] p-4 bg-[#D89156]">
+          <div className="flex items-center justify-between text-black text-xs">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
               <span>Online & Ready</span>

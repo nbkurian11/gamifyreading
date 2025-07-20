@@ -128,7 +128,7 @@ const LeaderboardComponent = () => {
               <div className="text-4xl">⭐</div>
               <div className="text-3xl">📖</div>
               <h1 className="text-4xl font-black text-amber-900" style={{ fontFamily: 'monospace' }}>
-                Gamify Reading
+                SproutTale
               </h1>
             </div>
             
