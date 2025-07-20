@@ -42,34 +42,30 @@ const leaderboardData = [
 const getRankInfo = (rank) => {
   const configs = {
     1: { 
-      icon: '👑', 
-      text: '1st Place', 
-      gradient: 'from-yellow-400 via-yellow-500 to-yellow-600',
-      borderColor: 'border-yellow-400',
-      textColor: 'text-yellow-600'
+      icon: '1', 
+      text: '1st', 
+      bgColor: 'bg-amber-600',
+      textColor: 'text-amber-100'
     },
     2: { 
-      icon: '🥈', 
-      text: '2nd Place', 
-      gradient: 'from-gray-400 via-gray-500 to-gray-600',
-      borderColor: 'border-gray-400',
-      textColor: 'text-gray-600'
+      icon: '2', 
+      text: '2nd', 
+      bgColor: 'bg-amber-500',
+      textColor: 'text-white'
     },
     3: { 
-      icon: '🥉', 
-      text: '3rd Place', 
-      gradient: 'from-orange-400 via-orange-500 to-orange-600',
-      borderColor: 'border-orange-400',
-      textColor: 'text-orange-600'
+      icon: '3', 
+      text: '3rd', 
+      bgColor: 'bg-orange-600',
+      textColor: 'text-orange-100'
     }
   };
   
   return configs[rank] || { 
     icon: rank.toString(), 
-    text: `${rank}th Place`, 
-    gradient: 'from-amber-600 via-amber-700 to-amber-800',
-    borderColor: 'border-amber-600',
-    textColor: 'text-amber-700'
+    text: `${rank}th`, 
+    bgColor: 'bg-amber-400',
+    textColor: 'text-white'
   };
 };
 
@@ -95,20 +91,6 @@ const AnimatedCounter = ({ value, duration = 1000 }) => {
   return <span>{count}</span>;
 };
 
-const PixelBorder = ({ children, className = "" }) => (
-  <div className={`relative ${className}`}>
-    {/* Pixel-style border effect */}
-    <div className="absolute -inset-1 bg-amber-800 rounded-lg" 
-         style={{
-           clipPath: 'polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px))'
-         }}>
-    </div>
-    <div className="relative bg-orange-50 rounded-lg">
-      {children}
-    </div>
-  </div>
-);
-
 const LeaderboardComponent = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [mounted, setMounted] = useState(false);
@@ -117,11 +99,16 @@ const LeaderboardComponent = () => {
     setMounted(true);
   }, []);
 
+  const handleLogoClick = () => {
+    console.log('Navigating to home page...');
+    window.location.href = '/home';
+  };
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F5F1E8' }}>
       {/* Header */}
-      <div className="bg-amber-100 border-b-4 border-amber-800 shadow-lg">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+      <div style={{ backgroundColor: '#F5F1E8' }} className="border-b border-amber-200">
+        <div className="max-w-4xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             {/* Logo section */}
             <div className="flex items-center gap-4">
@@ -130,37 +117,27 @@ const LeaderboardComponent = () => {
               <h1 className="text-4xl font-black text-amber-900" style={{ fontFamily: 'monospace' }}>
                 SproutTale
               </h1>
-            </div>
-            
 
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto p-6">
+      <div className="max-w-4xl mx-auto p-6">
         {/* Title Section */}
         <div className="text-center mb-12 mt-8">
-          <PixelBorder className="inline-block">
-            <div className="px-12 py-8">
-              <div className="flex items-center justify-center gap-6 mb-4">
-                <div className="text-5xl animate-bounce">🏆</div>
-                <h1 className="text-6xl font-black text-amber-900" style={{ 
-                  fontFamily: 'monospace',
-                  textShadow: '3px 3px 0px #D97706, 6px 6px 0px #92400E'
-                }}>
-                  LEADERBOARD
-                </h1>
-                <div className="text-5xl animate-bounce" style={{ animationDelay: '0.5s' }}>🏆</div>
-              </div>
-              <p className="text-xl text-amber-800 font-bold" style={{ fontFamily: 'monospace' }}>
-                Level up as you read and watch your buddy grow! 🌱
-              </p>
-            </div>
-          </PixelBorder>
+          <div className="bg-white rounded-lg border border-amber-200 shadow-sm inline-block px-8 py-6">
+            <h1 className="text-3xl font-bold mb-2" style={{ color: '#8B4513' }}>
+              Leaderboard
+            </h1>
+            <p style={{ color: '#8B4513' }} className="opacity-80">
+              Level up as you read and watch your buddy grow
+            </p>
+          </div>
         </div>
 
         {/* Leaderboard Cards */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {leaderboardData.map((entry, idx) => {
             const rank = idx + 1;
             const rankInfo = getRankInfo(rank);
@@ -169,164 +146,106 @@ const LeaderboardComponent = () => {
             return (
               <div
                 key={entry.username}
-                className={`group transition-all duration-300 ${
-                  isHovered ? 'transform scale-105' : ''
+                className={`group transition-all duration-200 ${
+                  isHovered ? 'transform scale-[1.02]' : ''
                 }`}
                 onMouseEnter={() => setHoveredCard(idx)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <PixelBorder className="w-full">
-                  <div className="p-8 relative overflow-hidden">
-                    {/* Decorative pattern background */}
-                    <div className="absolute inset-0 opacity-5">
-                      <div className="w-full h-full" style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D97706' fill-opacity='0.4'%3E%3Cpolygon points='10 0 20 10 10 20 0 10'/%3E%3C/g%3E%3C/svg%3E")`,
-                        backgroundSize: '20px 20px'
-                      }}>
-                      </div>
-                    </div>
-
-                    {/* Rank Badge */}
-                    <div className="absolute top-6 left-6 z-20">
-                      <PixelBorder>
-                        <div className={`w-16 h-16 bg-gradient-to-br ${rankInfo.gradient} flex items-center justify-center text-white font-black text-2xl shadow-lg`}>
+                <div className="bg-white rounded-lg border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-200 p-6">
+                  <div className="flex items-center justify-between">
+                    {/* Left side - Rank and Pet Info */}
+                    <div className="flex items-center gap-6">
+                      {/* Rank Badge */}
+                      <div className="flex flex-col items-center gap-2">
+                        <div className={`w-12 h-12 ${rankInfo.bgColor} ${rankInfo.textColor} flex items-center justify-center text-lg font-bold rounded-lg`}>
                           {rankInfo.icon}
                         </div>
-                      </PixelBorder>
-                      <div className="mt-3 text-center">
-                        <div className="bg-amber-200 px-3 py-1 rounded-full border-2 border-amber-600">
-                          <span className="text-xs font-black text-amber-800" style={{ fontFamily: 'monospace' }}>
-                            {rankInfo.text}
+                        <span className="text-xs font-medium" style={{ color: '#C49B7C' }}>
+                          {rankInfo.text}
+                        </span>
+                      </div>
+
+                      {/* Pet Avatar & Info */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 bg-amber-50 rounded-lg flex items-center justify-center text-2xl border border-amber-200">
+                          {entry.avatar}
+                        </div>
+                        
+                        <div>
+                          <h3 className="text-xl font-bold mb-1" style={{ color: '#8B4513' }}>
+                            {entry.petName}
+                          </h3>
+                          <p className="text-sm" style={{ color: '#C49B7C' }}>
+                            @{entry.username}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Level Display */}
+                      <div className="bg-green-100 border border-green-200 rounded-lg px-4 py-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-green-700 font-semibold text-sm">
+                            Level {entry.spriteLevel}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="pl-28 pt-4">
-                      <div className="flex items-center justify-between">
-                        {/* Pet Info */}
-                        <div className="flex-1">
-                          <div className="flex items-center gap-6 mb-6">
-                            {/* Pixel-style avatar container */}
-                            <PixelBorder>
-                              <div className="w-20 h-20 bg-gradient-to-br from-amber-200 to-amber-300 flex items-center justify-center text-5xl">
-                                {entry.avatar}
-                              </div>
-                            </PixelBorder>
-                            
-                            <div>
-                              <h3 className="text-4xl font-black text-amber-900 mb-2" style={{ 
-                                fontFamily: 'monospace',
-                                textShadow: '2px 2px 0px #D97706'
-                              }}>
-                                {entry.petName}
-                              </h3>
-                              <p className="text-amber-700 text-lg font-bold" style={{ fontFamily: 'monospace' }}>
-                                @{entry.username}
-                              </p>
-                            </div>
-                            
-                            {/* Level Display */}
-                            <PixelBorder>
-                              <div className="bg-gradient-to-r from-green-400 to-green-500 px-6 py-3">
-                                <div className="flex items-center gap-3">
-                                  <div className="text-white text-2xl">⭐</div>
-                                  <span className="text-white font-black text-xl" style={{ fontFamily: 'monospace' }}>
-                                    Level {entry.spriteLevel}
-                                  </span>
-                                </div>
-                              </div>
-                            </PixelBorder>
-                          </div>
-
-                          {/* Progress Bar */}
-                          <div className="relative mb-4">
-                            <PixelBorder>
-                              <div className="bg-amber-200 h-6 overflow-hidden">
-                                <div 
-                                  className="bg-gradient-to-r from-green-400 to-green-500 h-full transition-all duration-2000 ease-out relative"
-                                  style={{ width: mounted ? `${Math.min((entry.spriteLevel / 10) * 100, 100)}%` : '0%' }}
-                                >
-                                  <div className="absolute inset-0 bg-white/30"></div>
-                                </div>
-                              </div>
-                            </PixelBorder>
-                            <p className="text-sm text-amber-800 mt-2 text-center font-bold" style={{ fontFamily: 'monospace' }}>
-                              Progress: {entry.spriteLevel}/10 ✨
-                            </p>
-                          </div>
+                    {/* Right side - Stats */}
+                    <div className="flex gap-6">
+                      <div className="text-center">
+                        <div className="text-xl font-bold" style={{ color: '#8B4513' }}>
+                          {mounted ? <AnimatedCounter value={entry.booksRead} /> : entry.booksRead}
                         </div>
-
-                        {/* Stats Cards */}
-                        <div className="flex gap-4 ml-8">
-                          <PixelBorder>
-                            <div className="group/stat text-center bg-gradient-to-br from-amber-100 to-amber-200 p-6 min-w-[120px] hover:from-amber-200 hover:to-amber-300 transition-all duration-300">
-                              <div className="text-4xl mb-3 group-hover/stat:animate-bounce">📚</div>
-                              <div className="text-3xl font-black text-amber-900" style={{ fontFamily: 'monospace' }}>
-                                {mounted ? <AnimatedCounter value={entry.booksRead} /> : entry.booksRead}
-                              </div>
-                              <div className="text-sm text-amber-800 font-bold" style={{ fontFamily: 'monospace' }}>Books</div>
-                            </div>
-                          </PixelBorder>
-                          
-                          <PixelBorder>
-                            <div className="group/stat text-center bg-gradient-to-br from-amber-100 to-amber-200 p-6 min-w-[120px] hover:from-amber-200 hover:to-amber-300 transition-all duration-300">
-                              <div className="text-4xl mb-3 group-hover/stat:animate-bounce">📖</div>
-                              <div className="text-3xl font-black text-amber-900" style={{ fontFamily: 'monospace' }}>
-                                {mounted ? <AnimatedCounter value={entry.pagesRead} duration={1500} /> : entry.pagesRead}
-                              </div>
-                              <div className="text-sm text-amber-800 font-bold" style={{ fontFamily: 'monospace' }}>Pages</div>
-                            </div>
-                          </PixelBorder>
-                          
-                          <PixelBorder>
-                            <div className="group/stat text-center bg-gradient-to-br from-amber-100 to-amber-200 p-6 min-w-[120px] hover:from-amber-200 hover:to-amber-300 transition-all duration-300">
-                              <div className="text-4xl mb-3 group-hover/stat:animate-bounce">🏅</div>
-                              <div className="text-3xl font-black text-amber-900" style={{ fontFamily: 'monospace' }}>
-                                {mounted ? <AnimatedCounter value={entry.badges} duration={800} /> : entry.badges}
-                              </div>
-                              <div className="text-sm text-amber-800 font-bold" style={{ fontFamily: 'monospace' }}>Badges</div>
-                            </div>
-                          </PixelBorder>
+                        <div className="text-xs font-medium" style={{ color: '#C49B7C' }}>Books</div>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="text-xl font-bold" style={{ color: '#8B4513' }}>
+                          {mounted ? <AnimatedCounter value={entry.pagesRead} duration={1500} /> : entry.pagesRead}
                         </div>
+                        <div className="text-xs font-medium" style={{ color: '#C49B7C' }}>Pages</div>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="text-xl font-bold" style={{ color: '#8B4513' }}>
+                          {mounted ? <AnimatedCounter value={entry.badges} duration={800} /> : entry.badges}
+                        </div>
+                        <div className="text-xs font-medium" style={{ color: '#C49B7C' }}>Badges</div>
                       </div>
                     </div>
-
-                    {/* Hover Effect Sparkles */}
-                    {isHovered && (
-                      <>
-                        <div className="absolute top-6 right-6 text-yellow-400 text-2xl animate-ping">✨</div>
-                        <div className="absolute bottom-6 left-36 text-yellow-400 text-xl animate-ping" style={{ animationDelay: '0.3s' }}>⭐</div>
-                        <div className="absolute top-1/2 right-12 text-yellow-400 text-lg animate-ping" style={{ animationDelay: '0.6s' }}>🌟</div>
-                      </>
-                    )}
                   </div>
-                </PixelBorder>
+
+                  {/* Progress Bar */}
+                  <div className="mt-4">
+                    <div className="bg-amber-100 h-2 rounded-full overflow-hidden border border-amber-200">
+                      <div 
+                        className="bg-gradient-to-r from-green-500 to-green-600 h-full transition-all duration-1000 ease-out"
+                        style={{ width: mounted ? `${Math.min((entry.spriteLevel / 10) * 100, 100)}%` : '0%' }}
+                      />
+                    </div>
+                    <p className="text-xs mt-2 text-right" style={{ color: '#C49B7C' }}>
+                      {entry.spriteLevel}/10 Progress
+                    </p>
+                  </div>
+                </div>
               </div>
             );
           })}
         </div>
 
         {/* Footer */}
-        <div className="mt-16 text-center">
-          <PixelBorder className="inline-block">
-            <div className="p-12">
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="text-yellow-400 text-3xl animate-spin" style={{ animationDuration: '3s' }}>⭐</div>
-                <h3 className="text-4xl font-black text-amber-900" style={{ 
-                  fontFamily: 'monospace',
-                  textShadow: '2px 2px 0px #D97706'
-                }}>
-                  KEEP CLIMBING THE RANKS!
-                </h3>
-                <div className="text-yellow-400 text-3xl animate-spin" style={{ animationDuration: '3s', animationDelay: '1s' }}>⭐</div>
-              </div>
-              <p className="text-xl text-amber-800 font-bold max-w-2xl mx-auto" style={{ fontFamily: 'monospace' }}>
-                Complete challenges, read more books, and become the ultimate Reading Champion! 🚀📚
-              </p>
-            </div>
-          </PixelBorder>
+        <div className="mt-12 text-center">
+          <div className="bg-white rounded-lg border border-amber-200 shadow-sm inline-block px-8 py-6">
+            <h3 className="text-xl font-bold mb-2" style={{ color: '#8B4513' }}>
+              Keep Reading!
+            </h3>
+            <p className="max-w-md opacity-80" style={{ color: '#8B4513' }} >
+              Complete challenges and read more books to climb the ranks
+            </p>
+          </div>
         </div>
       </div>
     </div>
