@@ -28,3 +28,7 @@ const completedChallengeSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('CompletedChallenge', completedChallengeSchema);
+
+//q
+
+
