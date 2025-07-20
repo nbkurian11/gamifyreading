@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LeaderboardComponent from "../components/LeaderboardComponent.jsx";
+import LeaderboardComponent from "./LeaderboardComponent.jsx";
 import CurrentRead from '../components/CurrentRead.jsx';
 import Goals from '../components/Goals.jsx';
 import Challenges from '../components/Challenges.jsx';
