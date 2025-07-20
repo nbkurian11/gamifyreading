@@ -110,20 +110,14 @@ const LeaderboardComponent = () => {
       <div style={{ backgroundColor: '#F5F1E8' }} className="border-b border-amber-200">
         <div className="max-w-4xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <h1 
-              className="text-2xl font-bold cursor-pointer hover:opacity-75 transition-opacity duration-200" 
-              style={{ color: '#C49B7C' }}
-              onClick={handleLogoClick}
-            >
-              Gamify
-            </h1>
-            <div className="flex items-center gap-6">
-              <button className="text-sm font-medium hover:opacity-75 transition-opacity" style={{ color: '#C49B7C' }}>
-                About Us
-              </button>
-              <button className="text-sm font-medium hover:opacity-75 transition-opacity" style={{ color: '#C49B7C' }}>
-                Account
-              </button>
+            {/* Logo section */}
+            <div className="flex items-center gap-4">
+              <div className="text-4xl">⭐</div>
+              <div className="text-3xl">📖</div>
+              <h1 className="text-4xl font-black text-amber-900" style={{ fontFamily: 'monospace' }}>
+                SproutTale
+              </h1>
+
             </div>
           </div>
         </div>

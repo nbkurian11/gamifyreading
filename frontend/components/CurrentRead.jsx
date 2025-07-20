@@ -103,17 +103,17 @@ const CurrentRead = () => {
   }, []);
 
   return (
-    <div className="relative z-10 p-6 bg-gray-900 text-white font-inter max-w-4xl mx-auto rounded-lg overflow-hidden">
-      <div className="bg-gray-800 p-4 rounded-xl mb-6 shadow-lg text-center border-2 border-blue-500 shadow-blue-700">
-        <h2 className="text-2xl font-extrabold tracking-wider uppercase text-blue-400 drop-shadow-lg">
-          Current Read
+    <div className="text-white font-inter max-w-4xl mx-auto rounded-lg">
+      <div className="p-4 rounded-xl mb-6 text-center">
+        <h2 className="text-5xl font-primary font-bold text-[#B17039]">
+          Currently Reading:
         </h2>
       </div>
 
-      <div className="relative flex justify-center items-center h-[460px]">
+      <div className="relative flex justify-center items-center h-[600px]">
         <button
           onClick={prevBook}
-          className="absolute left-0 p-3 bg-gray-800 hover:bg-blue-600 transition rounded-full z-10 shadow-md shadow-blue-400"
+          className="absolute left-0 p-3 bg-[#301204] hover:bg-[#B17039] transition rounded-full z-10 shadow-md shadow-[#301204]/30"
         >
           <FaArrowLeft size={20} />
         </button>
@@ -139,7 +139,7 @@ const CurrentRead = () => {
               <div
                 key={index}
                 className={`absolute transition-all duration-500 ease-in-out transform ${
-                  offset === 0 ? 'shadow-2xl shadow-blue-500/50' : ''
+                  offset === 0 ? 'shadow-1xl shadow-[#613918]/50' : ''
                 } ${isLoadingCard ? 'animate-pulse' : ''}`}
                 style={{
                   transform: `translateX(${translateX}px) scale(${scale})`,
@@ -147,7 +147,7 @@ const CurrentRead = () => {
                   zIndex,
                 }}
               >
-                <div className="flex flex-col items-center w-44 bg-gray-800/60 p-2 rounded-xl border-2 border-gray-700 hover:border-blue-400 transition-all duration-300">
+                <div className="flex flex-col items-center w-80 bg-[#613918] p-8 rounded-4xl hover:bg-[#301204] transition-all duration-300">
                   {isLoadingCard ? (
                     <div className="w-40 h-64 rounded-lg bg-gray-700 animate-pulse mb-2"></div>
                   ) : (
@@ -155,17 +155,17 @@ const CurrentRead = () => {
                       <img
                         src={book.cover}
                         alt={book.title}
-                        className="rounded-lg shadow-lg w-40 h-64 object-cover border-2 border-gray-600"
+                        className="rounded-lg shadow-xl w-55 h-75 object-cover border-2 border-[#301204]"
                       />
-                      <p className="text-base font-bold mt-2 text-center text-blue-300">
+                      <p className="text-base font-bold mt-2 text-center text-[#F8F3E8]">
                         {book.title}
                       </p>
-                      <p className="text-xs text-gray-300 mt-1 mb-1 text-center">
+                      <p className="text-sm text-[#F8F3E8]/80 ] mt-6 mb-6 text-center">
                         {book.description}
                       </p>
-                      <div className="w-full h-3 bg-gray-700 rounded-full mt-1 overflow-hidden">
+                      <div className="w-full h-3 bg-[#FBF3E9] rounded-full mt-1 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-500"
+                          className="h-full bg-[#90A844] transition-all duration-500"
                           style={{ width: `${progressPercent}%` }}
                         ></div>
                       </div>
@@ -179,7 +179,7 @@ const CurrentRead = () => {
 
         <button
           onClick={nextBook}
-          className="absolute right-0 p-3 bg-gray-800 hover:bg-blue-600 transition rounded-full z-10 shadow-md shadow-blue-400"
+          className="absolute right-0 p-3 bg-[#301204] hover:bg-[#B17039] transition rounded-full z-10 shadow-md shadow-[#301204]/30"
         >
           <FaArrowRight size={20} />
         </button>

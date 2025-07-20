@@ -109,7 +109,7 @@ const Challenges = () => {
         contents: [{
           parts: [{
             text: `Generate 5 challenging reading goals for a gamified reading app. Each challenge should include:
-            1. A specific genre or topic for a book recommendation (e.g., "classic philosophy", "rich fantasy story", "historical fiction about WWII", "current popular books")
+            1. A vague but creative prompt that allows freedom of choice in books (e.g., "Read a book with a blue cover", "Read a book with a flower on it", "Read a book with an Author whose name starts with the letter 'A'", "Read a trending book")
             2. A difficulty level (Beginner, Intermediate, Advanced, Expert, Master)
             3. A brief description of why it's challenging
             
@@ -117,10 +117,10 @@ const Challenges = () => {
             
             Example: 
             {
-              "title": "Philosophy Deep Dive",
+              "title": "Author Alphabet",
               "difficulty": "Expert",
-              "description": "Read a complex philosophical work to expand critical thinking",
-              "bookTopic": "Existentialist philosophy"
+              "description": "Read a book with an Author whose name starts with the letter 'A'",
+              "bookTopic": "Random"
             }`
           }]
         }],
@@ -380,7 +380,7 @@ const Challenges = () => {
         )}
         
         {/* Active Challenges */}
-        <div class="h-80 overflow-y-auto p-3 rounded-lg">
+        <div class="h-120 overflow-y-auto p-3 rounded-lg">
           <div className="space-y-4 mb-8">
             {challenges.map((challenge, index) => (
               <div key={index} className="bg-[#613918]/50 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-slate-700/50 
@@ -476,7 +476,7 @@ const Challenges = () => {
     </button>
 
     {showCompleted && (
-      <div className="max-h-20 overflow-y-auto pr-2 scroll-smooth">
+      <div className="max-h-45 overflow-y-auto pr-2 scroll-smooth">
         <div className="grid gap-4">
           {completedChallenges.slice(-5).reverse().map((challenge, index) => (
             <div
