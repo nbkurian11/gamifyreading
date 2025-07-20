@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -30,6 +29,8 @@ mongoose.connect(process.env.MONGO_URI, {
 // Function to calculate and update global XP
 async function calculateTotalXP() {
     try {
+        // Assuming your collection name is "challenges" or similar
+        // Replace "Challenge" with your actual model name
         const completedchallenges = mongoose.model('completedchallenges', new mongoose.Schema({
             userId: String,
             title: String,
@@ -60,6 +61,11 @@ async function calculateTotalXP() {
     }
 }
 
+// Function to get current total XP
+function getTotalXP() {
+    return globalTotalXP;
+}
+
 // Function to add XP and update global total
 function addXP(xpAmount) {
     globalTotalXP += xpAmount;
@@ -69,19 +75,6 @@ function addXP(xpAmount) {
 // API endpoint to get total XP
 app.get('/api/total-xp', (req, res) => {
     res.json({ totalXP: globalTotalXP });
-});
-
-// API endpoint to add XP and update global total
-app.post('/api/add-xp', (req, res) => {
-    const { xp } = req.body;
-    if (typeof xp !== 'number') {
-        return res.status(400).json({ error: 'Invalid XP amount provided' });
-    }
-    addXP(xp);
-    res.json({ 
-        message: 'XP added successfully', 
-        totalXP: globalTotalXP 
-    });
 });
 
 // API endpoint to recalculate total XP
@@ -116,3 +109,10 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+// Export functions for use in other files
+module.exports = {
+    getTotalXP,
+    addXP,
+    calculateTotalXP
+};
