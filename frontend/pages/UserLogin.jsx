@@ -119,7 +119,10 @@ const UserLogin = () => {
                 </button>
                 <div className="text-center">
                   <p className="text-xs text-[#98673E]">
-                    Start typing in any field to go to homepage
+                    "If you don't like to read, you haven't found the right book."
+— J.K. Rowling
+
+
                   </p>
                 </div>
               </div>
