@@ -66,12 +66,7 @@ const UserLogin = () => {
             <img src="bookstar.png" className="mx-auto w-45 h-20" alt="BookStar Image" />
           </div>
 
-<<<<<<< HEAD
-          {/* Main title of the application */}
-          <div className="text-8xl font-primary text-[#301204]">Gamify Reading</div>
-=======
           <div className="text-8xl font-primary text-[#301204]">SproutTale</div>
->>>>>>> e0a67ee485e867ace9036c098974cebcfde8ab57
 
           {/* Tagline/description */}
           <div className="text-2xl font-secondary font-bold text-[#6E431F]">
