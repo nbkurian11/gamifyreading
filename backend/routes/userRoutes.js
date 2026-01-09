@@ -45,28 +45,24 @@ router.post('/register', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/test-insert', async (req, res) => {
-    try {
-        const user = new User({ username: 'testuser', password: 'testpassword123' });
-        await user.save();
-        res.status(201).json(user);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
+// router.post('/test-insert', async (req, res) => {
+//     try {
+//         const user = new User({ username: 'testuser', password: 'testpassword123' });
+//         await user.save();
+//         res.status(201).json(user);
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// });
 
 router.post('/login', asyncHandler(async (req, res) => {
     const { username, password } = req.body;
-    return res.status(200).json({
-        message: 'Login successful',
-        username: username,
-    })
     const user = await User.findOne({ username });
-
     if (user && (await user.matchPassword(password))) {
         res.json({
             _id: user._id,
             username: user.username,
+            email: user.email,
             token: generateToken(user._id),
         });
     } else {
